@@ -1,8 +1,7 @@
 "use client";
 
-import React, {Suspense, useState} from "react";
+import React, {useState} from "react";
 import {run} from '@/app/api/gemini';
-import Loading from "@/app/chat/loading";
 
 const Chat: React.FC = () => {
   const [prompt, setPrompt] = useState("");
