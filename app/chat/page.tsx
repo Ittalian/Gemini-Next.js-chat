@@ -14,7 +14,7 @@ const Chat: React.FC = () => {
         prompt
       );
       const t = response ?? "";
-      setResponse(t.toString);
+      setResponse(t.toString());
     } catch (error) {
       console.log(error);
     }
