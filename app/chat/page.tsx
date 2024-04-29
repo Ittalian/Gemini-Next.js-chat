@@ -16,12 +16,10 @@ const Chat: React.FC = () => {
       const t = response ?? "";
       setResponse(t.toString());
     } catch (error) {
-      console.log(error);
+      setResponse("エラーが発生しました");
     }
   };
 
-  /** ユーザのメッセージ投稿と回答
-   */
   return (
     <div>
         <div className="mt-3 p-3">
