@@ -1,23 +1,31 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {Suspense, useState} from "react";
 import {run} from '@/app/api/gemini';
+import Loading from "@/app/chat/loading";
 
 const Chat: React.FC = () => {
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
+  const [flag, setFlag] = useState(false);
 
   const handleSubmit = async (e:any) => {
     e.preventDefault();
     try {
+      setFlag(true);
+      if (prompt == "") {
+        setResponse("文字を入力してください")
+      } else {
       const response = await run(
         prompt
       );
       const t = response ?? "";
       setResponse(t.toString());
+      }
     } catch (error) {
       setResponse("エラーが発生しました");
     }
+    setFlag(false);
   };
 
   return (
@@ -30,7 +38,7 @@ const Chat: React.FC = () => {
               </label>
               <div>
                     <textarea
-                      rows={3}
+                      rows={8}
                       className="mt-1 px-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
                       placeholder="ここに質問を入れてください"
                       value={prompt}
@@ -38,12 +46,19 @@ const Chat: React.FC = () => {
                     />
               </div>
               <div>
-                <button
-                  type="submit"
-                  className="inline-flex justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
-                >
-                  質問する
-                </button>
+                {
+                (() => {
+                  if (!flag) {
+                  return <button
+                    type="submit"
+                    className="inline-flex justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 active:bg-indigo-700"
+                  >
+                    質問する
+                  </button>
+                } else {
+                  return <p>Loading...</p>
+                }})()
+              }
               </div>
             </div>
           </form>

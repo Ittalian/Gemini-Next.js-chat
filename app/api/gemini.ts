@@ -16,7 +16,6 @@ const model = new ChatGoogleGenerativeAI({
     ],
   });
 
-  // Batch and stream are also supported
   const res = await model.invoke([
     [
       "human",
